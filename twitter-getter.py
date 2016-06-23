@@ -45,13 +45,17 @@ tovisit = [user["id"]]
 ##########################
 #PROBLEM: FIRST USER IS NOT IN JSON FILE
 ##########################
-
+user_count = 0
 while (tovisit and count<1000):
     # Searh followers
     query = twitter.friends.ids(user_id = tovisit[0])
     # Remove user from tovisit
     visited.append(tovisit.pop(0));
-
+    ####
+    # Counter of how many different users analyzed
+    user_count+=1
+    print 'Users visited: '+str(user_count)
+    ####
     # Number of followers
     print "found %d friends" % (len(query["ids"]))
 
@@ -70,12 +74,14 @@ while (tovisit and count<1000):
                 # Check if it is a new user
                 if ((user['id'] not in visited) and (user['id'] not in tovisit)):
                     count+=1;
-                    print count
+                    #print count
                     tovisit.append(user['id'])
                     # Create a user dictionary with relevant information given by the key id
                     users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
                                             'verified': user['verified'], 'node': count,
                                             'neighbours':[visited[-1]]}
+                elif (user['id'] in visited):
+                    user_dict['id']['neighbours'].append(visited[-1])
 
 with open('query_output.json', 'a') as jsonfile:
     json.dump(users_dict, jsonfile, indent=4)
