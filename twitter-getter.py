@@ -7,6 +7,7 @@
 
 from twitter import *
 import json
+from utils import checkbio
 
 #-----------------------------------------------------------------------
 # load our API credentials
@@ -20,47 +21,51 @@ execfile("config.py", config)
 twitter = Twitter(
         auth = OAuth(config["access_key"], config["access_secret"], config["consumer_key"], config["consumer_secret"]))
 
-#-----------------------------------------------------------------------
-# this is the user whose friends we will list
-#-----------------------------------------------------------------------
-username = "koalakendi"
 
-#-----------------------------------------------------------------------
-# perform a basic search
-# twitter API docs: https://dev.twitter.com/docs/api/1/get/friends/ids
-#-----------------------------------------------------------------------
-query = twitter.friends.ids(screen_name = username)
 
-#-----------------------------------------------------------------------
-# tell the user how many friends we've found.
-# note that the twitter API will NOT immediately give us any more
-# information about friends except their numeric IDs...
-#-----------------------------------------------------------------------
-print "found %d friends" % (len(query["ids"]))
+# Starting point
+username = "ppmadrid"
 
-#-----------------------------------------------------------------------
-# now we loop through them to pull out more info, in blocks of 100.
-#-----------------------------------------------------------------------
-for n in range(0, len(query["ids"]), 100):
-    ids = query["ids"][n:n+100]
+# Recursive parameters
+visited = []
+tovisit = [username]
+count = 1;
 
-	#-----------------------------------------------------------------------
-	# create a subquery, looking up information about these users
-	# twitter API docs: https://dev.twitter.com/docs/api/1/get/users/lookup
-	#-----------------------------------------------------------------------
-    subquery = twitter.users.lookup(user_id = ids)
+##########################
+#PROBLEM: FIRST USER IS NOT IN JSON FILE
+##########################
 
-    # subquery of users/show. It gives info about bio.
-    #subquery = twitter.users.show(user_id = ids)
-    users_dict = {}
-    with open('query_output.json', 'w') as jsonfile:
-    	for user in subquery:
+while (tovisit):
+    # Searh followers
+    query = twitter.friends.ids(screen_name = username)
+    # Remove user from tovisit
+    visited.append(tovisit.pop(0));
 
-            # Create a user dictionary with relevant information given by the key id
-            users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
-                                        'verified': user['verified']}
+    # Number of followers
+    print "found %d friends" % (len(query["ids"]))
 
-        json.dump(users_dict, jsonfile, indent=4)
+    # Loop through followers in blocks of 100
+    for n in range(0, len(query["ids"]), 100):
+        ids = query["ids"][n:n+100]
+
+    	# Information of each of the followers
+        subquery = twitter.users.lookup(user_id = ids)
+
+        users_dict = {}
+        with open('query_output.json', 'w') as jsonfile:
+            for user in subquery:
+                # Check if it is a new user
+                if ((user['screen_name'] not in visited) and (user['screen_name'] not in tovisit)):
+                    # If user biography has certain keywords
+                    if checkbio(user['description']):
+                        tovisit.append(user['screen_name'])
+                        # Create a user dictionary with relevant information given by the key id
+                        users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
+                                                'verified': user['verified']}#, 'node': count}
+            json.dump(users_dict, jsonfile, indent=4)
+            print tovisit
+
+
         """
         For loading json files:
         import json
