@@ -43,22 +43,30 @@ print "found %d friends" % (len(query["ids"]))
 #-----------------------------------------------------------------------
 for n in range(0, len(query["ids"]), 100):
     ids = query["ids"][n:n+100]
-    print ids
 
 	#-----------------------------------------------------------------------
 	# create a subquery, looking up information about these users
 	# twitter API docs: https://dev.twitter.com/docs/api/1/get/users/lookup
 	#-----------------------------------------------------------------------
-    #subquery = twitter.users.lookup(user_id = ids)
+    subquery = twitter.users.lookup(user_id = ids)
 
     # subquery of users/show. It gives info about bio.
-    subquery = twitter.users.show(user_id = ids)
+    #subquery = twitter.users.show(user_id = ids)
+    users_dict = {}
     with open('query_output.json', 'w') as jsonfile:
     	for user in subquery:
-            print 'hola'
-            #user_dict = {}
-            #user_dict['id'] = user.id
-    		#-----------------------------------------------------------------------
-    		# now print out user info, starring any users that are Verified.
-    		#-----------------------------------------------------------------------
-            print " [%s] %s" % ("*" if user["verified"] else " ", user["screen_name"])
+
+            # Create a user dictionary with relevant information given by the key id
+            users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
+                                        'verified': user['verified']}
+
+        json.dump(users_dict, jsonfile, indent=4)
+        """
+        For loading json files:
+        import json
+        with open('jsonfile', 'r') as jsonfile:
+            my_dictionary = json.load(jsonfile)
+
+        The dictonary returned will be accessed by id as key and will contain
+        information about bio, verification and name.
+        """
