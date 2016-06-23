@@ -62,30 +62,31 @@ while (tovisit and count<1000):
     	# Information of each of the followers
         subquery = twitter.users.lookup(user_id = ids)
 
-        with open('query_output.json', 'a') as jsonfile:
-            for user in subquery:
-                # If user biography has certain keywords
-                if checkbio(user['description']):
-                    #HERE WE HAVE TO ADD THE CONNECTION
+        for user in subquery:
+            # If user biography has certain keywords
+            if checkbio(user['description']):
+                #HERE WE HAVE TO ADD THE CONNECTION
 
-                    # Check if it is a new user
-                    if ((user['id'] not in visited) and (user['id'] not in tovisit)):
-                        count+=1;
-                        tovisit.append(user['id'])
-                        # Create a user dictionary with relevant information given by the key id
-                        users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
-                                                'verified': user['verified'], 'node': count
-                                                'neighbours':[visited[-1]]}
+                # Check if it is a new user
+                if ((user['id'] not in visited) and (user['id'] not in tovisit)):
+                    count+=1;
+                    print count
+                    tovisit.append(user['id'])
+                    # Create a user dictionary with relevant information given by the key id
+                    users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
+                                            'verified': user['verified'], 'node': count,
+                                            'neighbours':[visited[-1]]}
 
-json.dump(users_dict, jsonfile, indent=4)
+with open('query_output.json', 'a') as jsonfile:
+    json.dump(users_dict, jsonfile, indent=4)
 
 
-        """
-        For loading json files:
-        import json
-        with open('jsonfile', 'r') as jsonfile:
-            my_dictionary = json.load(jsonfile)
+"""
+For loading json files:
+import json
+with open('jsonfile', 'r') as jsonfile:
+    my_dictionary = json.load(jsonfile)
 
-        The dictonary returned will be accessed by id as key and will contain
-        information about bio, verification and name.
-        """
+The dictonary returned will be accessed by id as key and will contain
+information about bio, verification and name.
+"""
