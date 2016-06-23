@@ -41,13 +41,14 @@ users_dict = {}
 user = twitter.users.show(screen_name=username)
 users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
                         'verified': user['verified'], 'node': count}
+tovisit = [user["id"]]
 ##########################
 #PROBLEM: FIRST USER IS NOT IN JSON FILE
 ##########################
 
-while (tovisit):
+while (tovisit and count<1000):
     # Searh followers
-    query = twitter.friends.ids(screen_name = username)
+    query = twitter.friends.ids(user_id = tovisit[0])
     # Remove user from tovisit
     visited.append(tovisit.pop(0));
 
@@ -68,15 +69,15 @@ while (tovisit):
                     #HERE WE HAVE TO ADD THE CONNECTION
 
                     # Check if it is a new user
-                    if ((user['screen_name'] not in visited) and (user['screen_name'] not in tovisit)):
+                    if ((user['id'] not in visited) and (user['id'] not in tovisit)):
                         count+=1;
-                        tovisit.append(user['screen_name'])
+                        tovisit.append(user['id'])
                         # Create a user dictionary with relevant information given by the key id
                         users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
-                                                'verified': user['verified'], 'node': count}
-            json.dump(users_dict, jsonfile, indent=4)
-            users_dict = {}
-            print tovisit
+                                                'verified': user['verified'], 'node': count
+                                                'neighbours':[visited[-1]]}
+
+json.dump(users_dict, jsonfile, indent=4)
 
 
         """
