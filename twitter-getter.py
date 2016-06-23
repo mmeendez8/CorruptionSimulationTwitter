@@ -8,6 +8,12 @@
 from twitter import *
 import json
 from utils import checkbio
+import os
+
+try:
+    os.remove("query_output.json")
+except OSError:
+    pass
 
 #-----------------------------------------------------------------------
 # load our API credentials
@@ -30,7 +36,11 @@ username = "ppmadrid"
 visited = []
 tovisit = [username]
 count = 1;
+users_dict = {}
 
+user = twitter.users.show(screen_name=username)
+users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
+                        'verified': user['verified'], 'node': count}
 ##########################
 #PROBLEM: FIRST USER IS NOT IN JSON FILE
 ##########################
@@ -51,18 +61,21 @@ while (tovisit):
     	# Information of each of the followers
         subquery = twitter.users.lookup(user_id = ids)
 
-        users_dict = {}
-        with open('query_output.json', 'w') as jsonfile:
+        with open('query_output.json', 'a') as jsonfile:
             for user in subquery:
-                # Check if it is a new user
-                if ((user['screen_name'] not in visited) and (user['screen_name'] not in tovisit)):
-                    # If user biography has certain keywords
-                    if checkbio(user['description']):
+                # If user biography has certain keywords
+                if checkbio(user['description']):
+                    #HERE WE HAVE TO ADD THE CONNECTION
+
+                    # Check if it is a new user
+                    if ((user['screen_name'] not in visited) and (user['screen_name'] not in tovisit)):
+                        count+=1;
                         tovisit.append(user['screen_name'])
                         # Create a user dictionary with relevant information given by the key id
                         users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
-                                                'verified': user['verified']}#, 'node': count}
+                                                'verified': user['verified'], 'node': count}
             json.dump(users_dict, jsonfile, indent=4)
+            users_dict = {}
             print tovisit
 
 
