@@ -7,7 +7,7 @@
 
 from twitter import *
 import json
-from utils import checkbio
+from utils import checkbio, checklocation, load_locations
 import os
 
 try:
@@ -42,13 +42,17 @@ users_dict = {}
 user = twitter.users.show(screen_name=username)
 users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
                         'verified': user['verified'], 'node': count, 'neighbours':[],
-                        'real_name': user['name'], 'location':user['location']}
+                        'real_name': user['name'], 'location':user['location'],
+                        'followers': user['followers_count']}
 tovisit = [user["id"]]
+
+# Load the location restrictions in a bag of words vector
+location_bow = load_locations('municipios_madrid.txt')
 ##########################
 #PROBLEM: FIRST USER IS NOT IN JSON FILE
 ##########################
 user_count = 0
-while (tovisit and count<100):
+while (tovisit and count<200):
     # Searh followers
     query = twitter.friends.ids(user_id = tovisit[0])
     # Remove user from tovisit
@@ -70,7 +74,7 @@ while (tovisit and count<100):
 
         for user in subquery:
             # If user biography has certain keywords
-            if checkbio(user['description']):
+            if (checkbio(user['description']) and checklocation(user['location'], location_bow)):
                 #HERE WE HAVE TO ADD THE CONNECTION
 
                 # Check if it is a new user
@@ -82,7 +86,8 @@ while (tovisit and count<100):
                     users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
                                             'verified': user['verified'], 'node': count,
                                             'neighbours':[visited[-1]], 'real_name': user['name'],
-                                            'location':user['location']}
+                                            'location':user['location'],
+                                            'followers_count': user['followers_count']}
                     print user['location']
                     print user['name']
                 elif (user['id'] in visited):
