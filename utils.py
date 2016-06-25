@@ -6,3 +6,6 @@ def checkbio (bio):
     for w in bagofwords:
         if w in bio: return True
     return False
+
+def checklocation(location):
+    pass

@@ -25,7 +25,8 @@ execfile("config.py", config)
 # create twitter API object
 #-----------------------------------------------------------------------
 twitter = Twitter(
-        auth = OAuth(config["access_key"], config["access_secret"], config["consumer_key"], config["consumer_secret"]))
+        auth = OAuth(config["access_key"], config["access_secret"],
+         config["consumer_key"], config["consumer_secret"]), retry = True)
 
 
 
@@ -40,13 +41,14 @@ users_dict = {}
 
 user = twitter.users.show(screen_name=username)
 users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
-                        'verified': user['verified'], 'node': count, 'neighbours':[]}
+                        'verified': user['verified'], 'node': count, 'neighbours':[],
+                        'real_name': user['name'], 'location':user['location']}
 tovisit = [user["id"]]
 ##########################
 #PROBLEM: FIRST USER IS NOT IN JSON FILE
 ##########################
 user_count = 0
-while (tovisit and count<2000):
+while (tovisit and count<100):
     # Searh followers
     query = twitter.friends.ids(user_id = tovisit[0])
     # Remove user from tovisit
@@ -79,8 +81,12 @@ while (tovisit and count<2000):
                     # Create a user dictionary with relevant information given by the key id
                     users_dict[user["id"]] = {'name': user['screen_name'], 'bio': user['description'],
                                             'verified': user['verified'], 'node': count,
-                                            'neighbours':[visited[-1]]}
+                                            'neighbours':[visited[-1]], 'real_name': user['name'],
+                                            'location':user['location']}
+                    print user['location']
+                    print user['name']
                 elif (user['id'] in visited):
+                    print user['screen_name']
                     users_dict[user['id']]['neighbours'].append(visited[-1])
 
 with open('query_output.json', 'a') as jsonfile:
