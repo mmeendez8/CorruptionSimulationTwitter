@@ -32,7 +32,7 @@ twitter = Twitter(
 
 # Starting point
 username = "ppmadrid"
-network_sizes = [1000, 5000]
+network_sizes = [1000, 5000, 10000]
 # Recursive parameters
 visited = []
 tovisit = [username]
@@ -57,7 +57,10 @@ while (tovisit and count<max(network_sizes)):
     if not network_sizes:
         break
     # Searh followers
-    query = twitter.friends.ids(user_id = tovisit[0])
+    try:
+        query = twitter.friends.ids(user_id = tovisit[0])
+    except TwitterHTTPError as e:
+        print e
     # Remove user from tovisit
     visited.append(tovisit.pop(0));
     ####
