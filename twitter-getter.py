@@ -7,7 +7,7 @@
 
 from twitter import *
 import json
-from utils import checkbio, checklocation, load_locations
+from utils import *
 import os
 
 try:
@@ -95,8 +95,8 @@ while (tovisit and count<max(network_sizes)):
                                             'neighbours':[visited[-1]], 'real_name': user['name'],
                                             'location':user['location'],
                                             'followers_count': user['followers_count']}
-                    print user['location']
-                    print user['name']
+                    print user['location'].encode('utf-8')
+                    print user['name'].encode('utf-8')
                 elif (user['id'] in visited):
                     print user['screen_name']
                     users_dict[user['id']]['neighbours'].append(visited[-1])
