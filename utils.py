@@ -111,13 +111,14 @@ def export_pajek(output_filename, partition):
             pajek_file.write(str(line) + "\n")
 
 def find_comm(graph,plot=0):
-    dendogram = graph.community_edge_betweenness(directed=False)
+    dendogram = graph.community_edge_betweenness(directed=False,clusters=3)
     # convert it into a flat clustering
     partition = dendogram.as_clustering()
     export_pajek("Partitions/test.clu",partition.membership)
     modularity = graph.modularity(partition)
     if plot:
         _plot(graph,partition.membership,"Figures/partition_graph.png")
+    return partition
 
 def get_hubs(graph, nhubs):
     matrix = graph.get_adjacency()
@@ -135,5 +136,16 @@ def get_twitter_info(graph, ind, filename):
         for node in ind:
             user = graph.vs[node]["id"]
             f.write(data[user]["name"].encode('utf-8')+'\n')
+            f.write(data[user]["bio"].encode('utf-8')+'\n')
+            f.write("\n")
+
+def get_cluster_nodes(graph, partition, filename,number):
+    ind = []
+    with open(filename, 'r') as data_file:
+        data = json.load(data_file)
+    with open("partition" +str(number)+".txt",'w') as f:
+        for node in partition:
+            user = graph.vs[node]["id"]
+            print node
             f.write(data[user]["bio"].encode('utf-8')+'\n')
             f.write("\n")
