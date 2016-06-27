@@ -116,3 +116,10 @@ def find_comm(graph,plot=0):
     modularity = graph.modularity(partition)
     if plot:
         _plot(graph,partition.membership,"Figures/test.png")
+
+
+def degree_dist(graph):
+    """ Compute the histogram corresponding to the degree distribution
+    of the given network"""
+    deg_histogram = graph.degree_distribution()
+    return deg_histogram
