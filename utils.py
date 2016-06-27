@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
 import igraph
+import numpy as np
 from random import randint
+
 
 bagofwords = ["pp","alcalde","nngg", "partido", "popular", "populares", "derecha", "nuevas generaciones","concejal","parlamento"]
 
@@ -98,7 +100,7 @@ def create_graph(filename,plot=0):
         # Add edges
         g.add_edges(edges_list)
     if plot:
-        _plot(g,None,'graph.png')
+        _plot(g,None,'Figures/original_graph.png')
     return g
 
 def export_pajek(output_filename, partition):
@@ -109,14 +111,44 @@ def export_pajek(output_filename, partition):
             pajek_file.write(str(line) + "\n")
 
 def find_comm(graph,plot=0):
-    dendogram = graph.community_edge_betweenness(directed=False)
+    dendogram = graph.community_edge_betweenness(directed=False,clusters=3)
     # convert it into a flat clustering
     partition = dendogram.as_clustering()
     export_pajek("Partitions/test.clu",partition.membership)
     modularity = graph.modularity(partition)
     if plot:
-        _plot(graph,partition.membership,"Figures/test.png")
+        _plot(graph,partition.membership,"Figures/partition_graph.png")
+    return partition
 
+def get_hubs(graph, nhubs):
+    matrix = graph.get_adjacency()
+    matrix = np.array(matrix.data)
+    connections = np.sum(matrix,axis=0)
+    # Get index of most connected novedades
+    ind = np.argpartition(connections,  -nhubs)[-nhubs:]
+    return ind
+
+def get_twitter_info(graph, ind, filename):
+    # Read json file
+    with open(filename, 'r') as data_file:
+        data = json.load(data_file)
+    with open("hubusers.txt",'w') as f:
+        for node in ind:
+            user = graph.vs[node]["id"]
+            f.write(data[user]["name"].encode('utf-8')+'\n')
+            f.write(data[user]["bio"].encode('utf-8')+'\n')
+            f.write("\n")
+
+def get_cluster_nodes(graph, partition, filename,number):
+    ind = []
+    with open(filename, 'r') as data_file:
+        data = json.load(data_file)
+    with open("partition" +str(number)+".txt",'w') as f:
+        for node in partition:
+            user = graph.vs[node]["id"]
+            print node
+            f.write(data[user]["bio"].encode('utf-8')+'\n')
+            f.write("\n")
 
 def degree_dist(graph):
     """ Compute the histogram corresponding to the degree distribution
