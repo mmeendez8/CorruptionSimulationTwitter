@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import igraph
+from random import randint
 
 bagofwords = ["pp","alcalde","nngg", "partido", "popular", "populares", "derecha", "nuevas generaciones","concejal","parlamento"]
 
@@ -78,12 +79,13 @@ def _plot(g, membership,filename):
 
 
 
-def create_graph(filename, n,plot=0):
-    g = igraph.Graph()
-    g.add_vertices(n)
+def create_graph(filename,plot=0):
     # Read json file
     with open(filename, 'r') as data_file:
         data = json.load(data_file)
+    n = len(data)
+    g = igraph.Graph()
+    g.add_vertices(n)
     # Create graph vertices
     for user in data:
         node = data[user]["node"]
@@ -97,3 +99,20 @@ def create_graph(filename, n,plot=0):
         g.add_edges(edges_list)
     if plot:
         _plot(g,None,'graph.png')
+    return g
+
+def export_pajek(output_filename, partition):
+    # Export partition to a clu file
+    with open(output_filename, 'w') as pajek_file:
+        partition.insert(0,"*Vertices " + str(len(partition)))
+        for line in partition:
+            pajek_file.write(str(line) + "\n")
+
+def find_comm(graph,plot=0):
+    dendogram = graph.community_edge_betweenness(directed=False)
+    # convert it into a flat clustering
+    partition = dendogram.as_clustering()
+    export_pajek("Partitions/test.clu",partition.membership)
+    modularity = graph.modularity(partition)
+    if plot:
+        _plot(graph,partition.membership,"Figures/test.png")
