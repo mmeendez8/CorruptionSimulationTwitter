@@ -1,0 +1,36 @@
+DEBUG:root:Error obtaining friends list from id: 184864489
+DEBUG:root:Twitter sent status 401 for URL: 1.1/friends/ids.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=16165014170754169924&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1466982004&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=184864489&oauth_signature=pjcHSipVJWk0ctGhwf9OANjfeM0%3D)
+details: {u'request': u'/1.1/friends/ids.json', u'error': u'Not authorized.'}
+DEBUG:root:Error performing lookup with ids: [213677381, 710680418]
+DEBUG:root:Twitter sent status 404 for URL: 1.1/users/lookup.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=9712297638960861396&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1466983467&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=%5B213677381%2C%20710680418%5D&oauth_signature=EXLMv1zZvlL%2B5JmtHg6MrNMoqr4%3D)
+details: {u'errors': [{u'message': u'No user matches for specified terms.', u'code': 17}]}
+DEBUG:root:Error performing lookup with ids: [151844044, 391486412]
+DEBUG:root:Twitter sent status 404 for URL: 1.1/users/lookup.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=10150928024689675071&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1466991597&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=%5B151844044%2C%20391486412%5D&oauth_signature=QJ0lC50DoGeqUDB8I%2FSB%2FNvCuXk%3D)
+details: {u'errors': [{u'message': u'No user matches for specified terms.', u'code': 17}]}
+DEBUG:root:Error performing lookup with ids: [246708736, 307427019]
+DEBUG:root:Twitter sent status 404 for URL: 1.1/users/lookup.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=3417511484597190339&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1466992005&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=%5B246708736%2C%20307427019%5D&oauth_signature=rqwhcvkzBHqpPjf8y2hAZNmRZtI%3D)
+details: {u'errors': [{u'message': u'No user matches for specified terms.', u'code': 17}]}
+DEBUG:root:Error obtaining friends list from id: 235957507
+DEBUG:root:Twitter sent status 401 for URL: 1.1/friends/ids.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=7403407724074623290&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1466996191&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=235957507&oauth_signature=UuqHA0tLP6iz0mFAvDobr0KL%2FMo%3D)
+details: {u'request': u'/1.1/friends/ids.json', u'error': u'Not authorized.'}
+DEBUG:root:Error performing lookup with ids: [109286281]
+DEBUG:root:Twitter sent status 404 for URL: 1.1/users/lookup.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=7273343056198473249&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1466997358&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=%5B109286281%5D&oauth_signature=bhsREnVAkiRgvrocKyjTCkxstWo%3D)
+details: {u'errors': [{u'message': u'No user matches for specified terms.', u'code': 17}]}
+DEBUG:root:Error obtaining friends list from id: 137731620
+DEBUG:root:Twitter sent status 401 for URL: 1.1/friends/ids.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=3265655492051666836&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1466998080&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=137731620&oauth_signature=Dy99i3oIkRIPzomshkxSti7bCus%3D)
+details: {u'request': u'/1.1/friends/ids.json', u'error': u'Not authorized.'}
+DEBUG:root:Error performing lookup with ids: [147976995]
+DEBUG:root:Twitter sent status 404 for URL: 1.1/users/lookup.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=7691472277951373177&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1467002191&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=%5B147976995%5D&oauth_signature=YlC9HTfpHxBO5X93YbKTNTPzlco%3D)
+details: {u'errors': [{u'message': u'No user matches for specified terms.', u'code': 17}]}
+DEBUG:root:Error obtaining friends list from id: 139368404
+DEBUG:root:Twitter sent status 401 for URL: 1.1/friends/ids.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=2015397838686508885&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1467002658&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=139368404&oauth_signature=zYqopMyP%2FSR2z8%2FsMYK3yrCKhjQ%3D)
+details: {u'request': u'/1.1/friends/ids.json', u'error': u'Not authorized.'}
+DEBUG:root:Error obtaining friends list from id: 35501537
+DEBUG:root:Twitter sent status 401 for URL: 1.1/friends/ids.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=545243741786439902&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1467002663&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=35501537&oauth_signature=Z8wi1Ee4FHMNzOzQACbh0iXxzrU%3D)
+details: {u'request': u'/1.1/friends/ids.json', u'error': u'Not authorized.'}
+DEBUG:root:Error obtaining friends list from id: 409906790
+DEBUG:root:Twitter sent status 401 for URL: 1.1/friends/ids.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=6681827553504556673&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1467003489&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=409906790&oauth_signature=YDcGkRyYbCOvfvMnY3lphayb9IM%3D)
+details: {u'request': u'/1.1/friends/ids.json', u'error': u'Not authorized.'}
+DEBUG:root:Error obtaining friends list from id: 1320270067
+DEBUG:root:Twitter sent status 401 for URL: 1.1/friends/ids.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=1153634372513941287&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1467003632&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=1320270067&oauth_signature=G1bk1msyHAL7JbE%2FQQMOmzrHZwQ%3D)
+details: {u'request': u'/1.1/friends/ids.json', u'error': u'Not authorized.'}

@@ -9,6 +9,7 @@ from twitter import *
 import json
 from utils import *
 import os
+import logging
 
 try:
     os.remove("query_output.json")
@@ -29,6 +30,8 @@ twitter = Twitter(
          config["consumer_key"], config["consumer_secret"]), retry = True)
 
 
+# Configure logging file for debugging Twitter error response
+logging.basicConfig(filename='catched_responses.log',level=logging.DEBUG)
 
 # Starting point
 username = "ppmadrid"
@@ -60,7 +63,8 @@ while (tovisit and count<max(network_sizes)):
     try:
         query = twitter.friends.ids(user_id = tovisit[0])
     except TwitterHTTPError as e:
-        print e
+        logging.debug('Error obtaining friends list from id: ' + str(tovisit[0]))
+        logging.debug(e)
     # Remove user from tovisit
     visited.append(tovisit.pop(0));
     ####
@@ -77,7 +81,13 @@ while (tovisit and count<max(network_sizes)):
         # If network size reached break the subqueries
         #if count >= network_sizes[0]: break
     	# Information of each of the followers
-        subquery = twitter.users.lookup(user_id = ids)
+        try:
+            subquery = twitter.users.lookup(user_id = ids)
+        except TwitterHTTPError as e:
+            logging.debug('Error performing lookup with ids: '+str(ids))
+            logging.debug(e)
+
+
 
         for user in subquery:
             # If user biography has certain keywords
