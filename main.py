@@ -2,13 +2,12 @@ from utils import *
 <<<<<<< HEAD
 import json
 import matplotlib.pyplot as plt
+from subprocess import call
+
 
 # Load information from JSON file
 with open('query_output1000.json', 'r') as jsonfile:
     users = json.load(jsonfile)
-=======
-from subprocess import call
->>>>>>> retry-fix
 
 
 filename = "query_output1000.json"
