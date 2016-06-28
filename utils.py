@@ -194,9 +194,12 @@ def remove_root(data, root_id):
 def simulation (graph, users, mu, beta, infected, Nrep ):
     state = [0] * len(graph.vs)
     state[infected] = 1
+    path = []
     for step in range(Nsteps):
         new_infected = []
         infection_counter = [0] * len(graph.vs)
+        parent = []
+        child = []
         for rep in range(Nrep):
             # Iterate over previously infected nodes
             for infected_node in infected:
@@ -211,6 +214,9 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
                     if random() < beta + check_same_loc(graph,s,infected_node,users)*10*beta:
                         # Infected
                         infection_counter[s]+=1
+                        parent.append(infected_node)
+                        child.append(s)
+
         # Most corrupted nodes
         selected = heapq.nlargest(3,infection_counter)
         index = []
@@ -218,6 +224,14 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
             if val != 0:
                 index.append(infection_counter.index(val))
                 infection_counter[index[-1]] = 0
+                # Get index in childs for this node
+                for child in set(child):
+                    child_index = [index for ind,val in enumerate(hijos) if val==hijo]
+                # Get all different parents
+                parent_node = set(parent[child_index])
+                # Add to path [parent]
+                path.append([(parent_node,index[-1])])
+
         new_infected = index
 
         # Set corrupted to not take them into acount in future
@@ -226,3 +240,5 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
         state[new_infected] = 1
         # Update infected
         infected = new_infected
+        # Update Path
+    return path
