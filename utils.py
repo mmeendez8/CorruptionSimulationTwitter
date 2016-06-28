@@ -177,4 +177,10 @@ def simulation (graph, mu, beta, infected, Nrep):
     state = [0] * len(graph.vs)
     state[infected] = 1
     new_state = state
-    for rep in range(Nrep):
+    for step in range(Nsteps):
+        # Iterate over previously infected nodes
+        for infected_node in infected:
+            neighbors = graph.neighbors(infected_node)
+            for n in neighbors:
+                if state[n]==1:
+                    susceptible
