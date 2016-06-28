@@ -156,14 +156,17 @@ def get_cluster_nodes(graph, partition, filename,number):
 
 def check_same_loc(graph, node1, node2, users):
     locations = load_locations('municipios_madrid.txt')
+    loc1 = -1
+    loc2 = -2
     for location in locations:
+        #print location
         if location in users[graph.vs[node1]["id"]]["location"]:
-            loc1 = locations.index[location]
+            loc1 = locations.index(location)
             break
 
     for location in locations:
         if location in users[graph.vs[node2]["id"]]["location"]:
-            loc2 = locations.index[location]
+            loc2 = locations.index(location)
             break
 
     if loc1 == loc2:
@@ -194,7 +197,7 @@ def remove_root(data, root_id):
             pass
     return data
 
-def simulation (graph, users, beta, infected, Nrep, Nsteps ):
+def simulation (graph, users, beta, infected, Nrep, Nsteps):
     state = [0] * len(graph.vs)
     for elem in infected:
         state[elem] = 1
@@ -206,6 +209,7 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps ):
         children = []
         while not children:
             for rep in range(Nrep):
+                print 'step: '+str(step)+' repetition: '+str(rep)
                 # Iterate over previously infected nodes
                 for infected_node in infected:
                     print 'parent is:' + str(infected_node)

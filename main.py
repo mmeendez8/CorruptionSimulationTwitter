@@ -24,7 +24,7 @@ print users[id_mamon[0]]['real_name']
 # https://twitter.com/josecarlosboza
 print users[id_mamon[0]]['neighbours']
 
-beta = 0.00001
+beta = 0.001
 infected = [users[id_mamon[0]]['node']-1]
 Nrep = 500
 Nsteps = 3
