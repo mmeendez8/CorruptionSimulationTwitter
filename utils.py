@@ -214,7 +214,7 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps ):
                             susceptible.append(n)
                     # Iterate susceptible neighbors
                     for s in susceptible:
-                        if random() < beta: #+ check_same_loc(graph,s,infected_node,users)*10*beta:
+                        if random() < beta: + check_same_loc(graph,s,infected_node,users)*10*beta:
                             # Infected
                             print 'infected:'+str(s)
                             infection_counter[s]+=1
