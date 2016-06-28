@@ -199,7 +199,7 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
         new_infected = []
         infection_counter = [0] * len(graph.vs)
         parent = []
-        child = []
+        children = []
         for rep in range(Nrep):
             # Iterate over previously infected nodes
             for infected_node in infected:
@@ -215,7 +215,7 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
                         # Infected
                         infection_counter[s]+=1
                         parent.append(infected_node)
-                        child.append(s)
+                        children.append(s)
 
         # Most corrupted nodes
         selected = heapq.nlargest(3,infection_counter)
@@ -225,8 +225,8 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
                 index.append(infection_counter.index(val))
                 infection_counter[index[-1]] = 0
                 # Get index in childs for this node
-                for child in set(child):
-                    child_index = [index for ind,val in enumerate(hijos) if val==hijo]
+                for child in set(children):
+                    child_index = [ind for ind,val in enumerate(children) if val==child]
                 # Get all different parents
                 parent_node = set(parent[child_index])
                 # Add to path [parent]
