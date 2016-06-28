@@ -81,10 +81,10 @@ def _plot(g, membership,filename):
 
 
 
-def create_graph(filename,plot=0):
+def create_graph(data,plot=0):
     # Read json file
-    with open(filename, 'r') as data_file:
-        data = json.load(data_file)
+    # with open(filename, 'r') as data_file:
+    #     data = json.load(data_file)
     n = len(data)
     g = igraph.Graph()
     g.add_vertices(n)
@@ -155,3 +155,20 @@ def degree_dist(graph):
     of the given network"""
     deg_histogram = graph.degree_distribution()
     return deg_histogram
+
+
+def get_verified(data):
+    """Return verified users"""
+    verified = [user for key,user in data.items() if user['verified']]
+    return verified
+
+def remove_root(data, root_id):
+    """ Nada, de momento no lo hacemos ya que entonces hay
+    nodos que quedan totalmente huerfanos sin ningun vecino y peta"""
+    del(data[root_id])
+    for user in data.itervalues():
+        try:
+            user['neighbours'].remove(int(root_id))
+        except ValueError:
+            pass
+    return data
