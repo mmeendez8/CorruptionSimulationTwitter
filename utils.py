@@ -2,6 +2,7 @@
 import json
 import igraph
 import numpy as np
+import heapq
 from random import randint, random
 
 
@@ -195,6 +196,7 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
     state[infected] = 1
     for step in range(Nsteps):
         new_infected = []
+        infection_counter = [0] * len(graph.vs)
         for rep in range(Nrep):
             # Iterate over previously infected nodes
             for infected_node in infected:
@@ -209,7 +211,16 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
                     if random() < beta + check_same_loc(graph,s,infected_node,users)*10*beta:
                         # Infected
                         new_infected.append(s)
+                        infection_counter[s]+=1
+        # Most corrupted nodes
+        selected = heapq.nlargest(3,infection_counter)
+        for val in selected:
+            infection_counter[infection_counter.index(val) = 0
+        
+
         # Set corrupted to not take them into acount in future
         state[infected] = -1
         # Set new infected
         state[new_infected] = 1
+        # Update infected
+        infected = new_infected
