@@ -190,11 +190,12 @@ def remove_root(data, root_id):
             pass
     return data
 
-def simulation (graph, mu, beta, infected, Nrep, ):
+def simulation (graph, users, mu, beta, infected, Nrep ):
     state = [0] * len(graph.vs)
     state[infected] = 1
     new_state = state
     for step in range(Nsteps):
+        new_infected = []
         # Iterate over previously infected nodes
         for infected_node in infected:
             neighbors = graph.neighbors(infected_node)
@@ -205,7 +206,10 @@ def simulation (graph, mu, beta, infected, Nrep, ):
                     susceptible.append(n)
             # Iterate susceptible neighbors
             for s in susceptible:
-                if random() < beta + check_same_loc()*10*beta:
+                if random() < beta + check_same_loc(graph,s,infected_node,users)*10*beta:
                     # Infected
-                    new_state[s] = 1
-    
+                    new_infected.append(s)
+        # Set corrupted to not take them into acount in future
+        state[infected] = -1
+        # Set new infected
+        state[new_infected] = 1
