@@ -29,7 +29,8 @@ twitter = Twitter(
         auth = OAuth(config["access_key"], config["access_secret"],
          config["consumer_key"], config["consumer_secret"]), retry = True)
 
-config_list = ['config.py', 'config2.py']
+config_list = ['config.py', 'config2.py', 'config3.py']
+swap_counter = 0
 
 # Configure logging file for debugging Twitter error response
 logging.basicConfig(filename='catched_responses.log',level=logging.DEBUG)
@@ -60,6 +61,18 @@ while (tovisit and count<max(network_sizes)):
     # If all the jsons are built, finish.
     if not network_sizes:
         break
+
+    if twitter.application.rate_limit_status()["resources"]["friends"]["/friends/ids"]["remaining"] < 2:
+        swap_counter+=1
+        config = {}
+        print 'Swapping account'
+        print config_list[swap_counter % len(config_list)]
+        print
+        execfile(config_list[swap_counter % len(config_list)], config)
+        twitter = Twitter(
+                auth = OAuth(config["access_key"], config["access_secret"],
+                 config["consumer_key"], config["consumer_secret"]), retry = True)
+
     # Searh followers
     try:
         query = twitter.friends.ids(user_id = tovisit[0])
@@ -82,6 +95,16 @@ while (tovisit and count<max(network_sizes)):
         # If network size reached break the subqueries
         #if count >= network_sizes[0]: break
     	# Information of each of the followers
+
+        if twitter.application.rate_limit_status()["resources"]["users"]["/users/lookup"]["remaining"] < 5:
+            swap_counter+=1
+            config = {}
+            print 'Swapping account'
+            execfile(config_list[swap_counter % len(config_list)], config)
+            twitter = Twitter(
+                    auth = OAuth(config["access_key"], config["access_secret"],
+                     config["consumer_key"], config["consumer_secret"]), retry = True)
+
         try:
             subquery = twitter.users.lookup(user_id = ids)
         except TwitterHTTPError as e:
