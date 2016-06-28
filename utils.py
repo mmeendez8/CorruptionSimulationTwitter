@@ -2,7 +2,7 @@
 import json
 import igraph
 import numpy as np
-from random import randint
+from random import randint, random
 
 
 bagofwords = ["pp","alcalde","nngg", "partido", "popular", "populares", "derecha", "nuevas generaciones","concejal","parlamento"]
@@ -173,7 +173,7 @@ def remove_root(data, root_id):
             pass
     return data
 
-def simulation (graph, mu, beta, infected, Nrep):
+def simulation (graph, mu, beta, infected, Nrep, ):
     state = [0] * len(graph.vs)
     state[infected] = 1
     new_state = state
@@ -186,3 +186,9 @@ def simulation (graph, mu, beta, infected, Nrep):
                 # Get only non corrupted nodes
                 if state[n]==0:
                     susceptible.append(n)
+            # Iterate susceptible neighbors
+            for s in susceptible:
+                if random() < beta + check_same_loc()*10*beta:
+                    # Infected
+                    new_state[s] = 1
+    
