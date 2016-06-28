@@ -20,7 +20,7 @@ except OSError:
 # load our API credentials
 #-----------------------------------------------------------------------
 config = {}
-execfile("config.py", config)
+execfile("config1.py", config)
 
 #-----------------------------------------------------------------------
 # create twitter API object
@@ -29,7 +29,7 @@ twitter = Twitter(
         auth = OAuth(config["access_key"], config["access_secret"],
          config["consumer_key"], config["consumer_secret"]), retry = True)
 
-config_list = ['config.py', 'config2.py', 'config3.py']
+config_list = ['config1.py', 'config2.py', 'config3.py']
 swap_counter = 0
 
 # Configure logging file for debugging Twitter error response
@@ -37,7 +37,8 @@ logging.basicConfig(filename='catched_responses.log',level=logging.DEBUG)
 
 # Starting point
 username = "ppmadrid"
-network_sizes = [2000, 3000, 4000, 5000]
+#network_sizes = [2000, 3000, 4000, 5000]
+network_sizes = range(250,10000,250)
 # Recursive parameters
 visited = []
 tovisit = [username]
@@ -129,10 +130,10 @@ while (tovisit and count<max(network_sizes)):
                                             'neighbours':[visited[-1]], 'real_name': user['name'],
                                             'location':user['location'],
                                             'followers_count': user['followers_count']}
-                    print user['location'].encode('utf-8')
-                    print user['name'].encode('utf-8')
+                    #print user['location'].encode('utf-8')
+                    #print user['name'].encode('utf-8')
                 elif (user['id'] in visited):
-                    print user['screen_name']
+                    #print user['screen_name']
                     users_dict[user['id']]['neighbours'].append(visited[-1])
 
     # With this approach we avoid computing the same network for bigger networks iteratively
