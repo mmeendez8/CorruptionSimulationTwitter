@@ -193,7 +193,8 @@ def remove_root(data, root_id):
 
 def simulation (graph, users, beta, infected, Nrep, Nsteps ):
     state = [0] * len(graph.vs)
-    state[infected] = 1
+    for elem in infected:
+        state[elem] = 1
     path = []
     for step in range(Nsteps):
         new_infected = []
@@ -203,6 +204,7 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps ):
         for rep in range(Nrep):
             # Iterate over previously infected nodes
             for infected_node in infected:
+                print 'parent is:' + str(infected_node)
                 neighbors = graph.neighbors(infected_node)
                 susceptible = []
                 for n in neighbors:
@@ -211,12 +213,14 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps ):
                         susceptible.append(n)
                 # Iterate susceptible neighbors
                 for s in susceptible:
-                    if random() < beta + check_same_loc(graph,s,infected_node,users)*10*beta:
+                    if random() < beta: #+ check_same_loc(graph,s,infected_node,users)*10*beta:
                         # Infected
+                        print 'infected:'+str(s)
                         infection_counter[s]+=1
                         parent.append(infected_node)
                         children.append(s)
-
+            raw_input('Locked')
+        print 'Rep:' + str(rep)
         # Most corrupted nodes
         selected = heapq.nlargest(3,infection_counter)
         index = []
@@ -228,16 +232,22 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps ):
                 for child in set(children):
                     child_index = [ind for ind,val in enumerate(children) if val==child]
                 # Get all different parents
-                parent_node = set(parent[child_index])
+                tmp = []
+                for x in child_index:
+                    tmp.append(parent[x])
+                parent_node = set(tmp)
                 # Add to path [parent]
                 path.append([(parent_node,index[-1])])
 
         new_infected = index
-
+        print 'New infected: '
+        print new_infected
         # Set corrupted to not take them into acount in future
-        state[infected] = -1
+        for elem in infected:
+            state[elem] = -1
         # Set new infected
-        state[new_infected] = 1
+        for elem in new_infected:
+            state[elem] = 1
         # Update infected
         infected = new_infected
         # Update Path
