@@ -201,26 +201,27 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps ):
         infection_counter = [0] * len(graph.vs)
         parent = []
         children = []
-        for rep in range(Nrep):
-            # Iterate over previously infected nodes
-            for infected_node in infected:
-                print 'parent is:' + str(infected_node)
-                neighbors = graph.neighbors(infected_node)
-                susceptible = []
-                for n in neighbors:
-                    # Get only non corrupted nodes
-                    if state[n]==0:
-                        susceptible.append(n)
-                # Iterate susceptible neighbors
-                for s in susceptible:
-                    if random() < beta: #+ check_same_loc(graph,s,infected_node,users)*10*beta:
-                        # Infected
-                        print 'infected:'+str(s)
-                        infection_counter[s]+=1
-                        parent.append(infected_node)
-                        children.append(s)
-            raw_input('Locked')
-        print 'Rep:' + str(rep)
+        while not children:
+            for rep in range(Nrep):
+                # Iterate over previously infected nodes
+                for infected_node in infected:
+                    print 'parent is:' + str(infected_node)
+                    neighbors = graph.neighbors(infected_node)
+                    susceptible = []
+                    for n in neighbors:
+                        # Get only non corrupted nodes
+                        if state[n]==0:
+                            susceptible.append(n)
+                    # Iterate susceptible neighbors
+                    for s in susceptible:
+                        if random() < beta: #+ check_same_loc(graph,s,infected_node,users)*10*beta:
+                            # Infected
+                            print 'infected:'+str(s)
+                            infection_counter[s]+=1
+                            parent.append(infected_node)
+                            children.append(s)
+                raw_input('Locked')
+            print 'Rep:' + str(rep)
         # Most corrupted nodes
         selected = heapq.nlargest(3,infection_counter)
         index = []
