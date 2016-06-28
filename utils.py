@@ -150,6 +150,23 @@ def get_cluster_nodes(graph, partition, filename,number):
             f.write(data[user]["bio"].encode('utf-8')+'\n')
             f.write("\n")
 
+def check_same_loc(node1, node2, users):
+    locations = load_locations('municipios_madrid.txt')
+    for location in locations:
+        if location in node1["location"]:
+            loc1 = locations.index[location]
+            break
+
+    for location in locations:
+        if location in node2["location"]:
+            loc2 = locations.index[location]
+            break
+
+    if loc1 == loc2:
+        return 1
+    else:
+        return 0
+
 def degree_dist(graph):
     """ Compute the histogram corresponding to the degree distribution
     of the given network"""
