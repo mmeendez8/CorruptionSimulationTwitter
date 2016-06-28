@@ -181,6 +181,8 @@ def simulation (graph, mu, beta, infected, Nrep):
         # Iterate over previously infected nodes
         for infected_node in infected:
             neighbors = graph.neighbors(infected_node)
+            susceptible = []
             for n in neighbors:
-                if state[n]==1:
-                    susceptible
+                # Get only non corrupted nodes
+                if state[n]==0:
+                    susceptible.append(n)
