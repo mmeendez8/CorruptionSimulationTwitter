@@ -29,7 +29,7 @@ twitter = Twitter(
         auth = OAuth(config["access_key"], config["access_secret"],
          config["consumer_key"], config["consumer_secret"]), retry = True)
 
-config_list = ['config_barb.py', 'config_lidon.py', 'config_mama.py', 'config_papa.py', 'config_jesu.py', 'config4.py', 'config5.py']
+config_list = ['config_barb.py', 'config_lidon.py', 'config_mama.py', 'config_jesu.py', 'config4.py', 'config5.py']
 swap_counter = 0
 
 # Configure logging file for debugging Twitter error response
@@ -38,7 +38,7 @@ logging.basicConfig(filename='catched_responses.log',level=logging.DEBUG)
 # Starting point
 username = "ppmadrid"
 #network_sizes = [2000, 3000, 4000, 5000]
-network_sizes = range(250,10000,250)
+network_sizes = range(150,10000,150)
 # Recursive parameters
 visited = []
 tovisit = [username]
@@ -138,6 +138,6 @@ while (tovisit and count<max(network_sizes)):
 
     # With this approach we avoid computing the same network for bigger networks iteratively
     if count>=network_sizes[0]:
-        with open('query_output'+str(network_sizes[0])+'.json', 'a') as jsonfile:
+        with open('second_round/query_output'+str(network_sizes[0])+'.json', 'a') as jsonfile:
             json.dump(users_dict, jsonfile, indent=4)
         network_sizes.pop(0)

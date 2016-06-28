@@ -145,3 +145,12 @@ details: {u'request': u'/1.1/friends/ids.json', u'error': u'Not authorized.'}
 DEBUG:root:Error performing lookup with ids: [382007120]
 DEBUG:root:Twitter sent status 404 for URL: 1.1/users/lookup.json using parameters: (oauth_consumer_key=mDr9xsbMEdWbbUK7mHy6UgJ3F&oauth_nonce=17428893740568668820&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1467104876&oauth_token=745000093590368256-sDKc5NElVhJbGf8dEgY5v4NOrYxJR7q&oauth_version=1.0&user_id=%5B382007120%5D&oauth_signature=PzBCfO9jcuh3NqgCaxI4xECClv8%3D)
 details: {u'errors': [{u'message': u'No user matches for specified terms.', u'code': 17}]}
+DEBUG:root:Error obtaining friends list from id: 184864489
+DEBUG:root:Twitter sent status 401 for URL: 1.1/friends/ids.json using parameters: (oauth_consumer_key=fxVO1lLatq8I4PU3TvDoaWVZ9&oauth_nonce=16301942536697964002&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1467125614&oauth_token=25403391-46HlN72CEBXiOhGbOecp5uRHxUUv14c75uMzifUJm&oauth_version=1.0&user_id=184864489&oauth_signature=eyPJFUUk2ucmWfeFSL69cHcjtEc%3D)
+details: {u'request': u'/1.1/friends/ids.json', u'error': u'Not authorized.'}
+DEBUG:root:Error performing lookup with ids: [382007120]
+DEBUG:root:Twitter sent status 404 for URL: 1.1/users/lookup.json using parameters: (oauth_consumer_key=fxVO1lLatq8I4PU3TvDoaWVZ9&oauth_nonce=16964498206709073633&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1467125970&oauth_token=25403391-46HlN72CEBXiOhGbOecp5uRHxUUv14c75uMzifUJm&oauth_version=1.0&user_id=%5B382007120%5D&oauth_signature=FIjwETJwRrfYP2Gc93tBugymHoE%3D)
+details: {u'errors': [{u'message': u'No user matches for specified terms.', u'code': 17}]}
+DEBUG:root:Error performing lookup with ids: [213677381, 710680418]
+DEBUG:root:Twitter sent status 404 for URL: 1.1/users/lookup.json using parameters: (oauth_consumer_key=oVG71cT9nDO7hYv7QsAsKQdBP&oauth_nonce=15563791499588220079&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1467126515&oauth_token=177240664-woueK658mQA7GE0YxdN9S0IpxMpIU13tGSF8dNOT&oauth_version=1.0&user_id=%5B213677381%2C%20710680418%5D&oauth_signature=c7fugrRpCSjeozIYtRjgn9BePLw%3D)
+details: {u'errors': [{u'message': u'No user matches for specified terms.', u'code': 17}]}
