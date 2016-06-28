@@ -29,7 +29,7 @@ twitter = Twitter(
         auth = OAuth(config["access_key"], config["access_secret"],
          config["consumer_key"], config["consumer_secret"]), retry = True)
 
-config_list = ['config_barb.py', 'config_lidon.py', 'config_mama.py', 'config_jesu.py', 'config4.py', 'config5.py']
+config_list = ['config_barb.py', 'config_lidon.py', 'config_mama.py', 'config_jesu.py', 'config4.py', 'config5.py', 'config1.py', 'config2.py', 'config3.py']
 swap_counter = 0
 
 # Configure logging file for debugging Twitter error response
