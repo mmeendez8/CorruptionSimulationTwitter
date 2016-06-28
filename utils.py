@@ -215,10 +215,10 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
         selected = heapq.nlargest(3,infection_counter)
         index = []
         for val in selected:
-            index.append(infection_counter.index(val))
-            infection_counter[index[-1]] = 0
-        new_infected = [i for i in index if i >= 0]
-
+            if val != 0:
+                index.append(infection_counter.index(val))
+                infection_counter[index[-1]] = 0
+        new_infected = index
 
         # Set corrupted to not take them into acount in future
         state[infected] = -1
