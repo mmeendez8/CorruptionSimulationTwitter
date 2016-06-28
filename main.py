@@ -25,7 +25,7 @@ print users[id_mamon[0]]['real_name']
 print users[id_mamon[0]]['neighbours']
 
 beta = 0.00001
-infected = [int(id_mamon[0])]
+infected = [users[id_mamon[0]]['node']-1]
 Nrep = 500
 Nsteps = 3
 simulation(graph, users, beta, infected, Nrep, Nsteps)

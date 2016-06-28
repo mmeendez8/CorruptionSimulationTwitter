@@ -220,7 +220,7 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps ):
                             infection_counter[s]+=1
                             parent.append(infected_node)
                             children.append(s)
-                raw_input('Locked')
+                #raw_input('Locked')
             print 'Rep:' + str(rep)
         # Most corrupted nodes
         selected = heapq.nlargest(3,infection_counter)
