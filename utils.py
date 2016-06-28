@@ -191,7 +191,7 @@ def remove_root(data, root_id):
             pass
     return data
 
-def simulation (graph, users, mu, beta, infected, Nrep ):
+def simulation (graph, users, beta, infected, Nrep, Nsteps ):
     state = [0] * len(graph.vs)
     state[infected] = 1
     path = []
