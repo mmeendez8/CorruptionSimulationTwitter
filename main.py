@@ -24,20 +24,22 @@ vals = [tup[2] for tup in list(deg_dist.bins())]
 plt.hist(vals[0:50], bins[0:50])
 plt.show()
 
+# Verified users from dataset
+verified = get_verified(users)
 # Obtain communities
 
-# print "Finding communities . . . "
-# partition = find_comm(graph,1)
-#
-# for i in range(3):
-#     get_cluster_nodes(graph, partition[i], filename,i)
+print "Finding communities . . . "
+partition = find_comm(graph,1)
+
+for i in range(3):
+    get_cluster_nodes(graph, partition[i], filename,i)
 
 
-#print "Looking for most popular users . . ."
-# Get user who are hubs of the network
-#ind = get_hubs(graph, 10)
+print "Looking for most popular users . . ."
+#Get user who are hubs of the network
+ind = get_hubs(graph, 10)
 
-#get_twitter_info(graph, ind, filename)
+get_twitter_info(graph, ind, filename)
 
-#print "Writing graph in pajek format"
-#graph.write_pajek("1000.net")
+print "Writing graph in pajek format"
+graph.write_pajek("1000.net")
