@@ -210,13 +210,15 @@ def simulation (graph, users, mu, beta, infected, Nrep ):
                 for s in susceptible:
                     if random() < beta + check_same_loc(graph,s,infected_node,users)*10*beta:
                         # Infected
-                        new_infected.append(s)
                         infection_counter[s]+=1
         # Most corrupted nodes
         selected = heapq.nlargest(3,infection_counter)
+        index = []
         for val in selected:
-            infection_counter[infection_counter.index(val) = 0
-        
+            index.append(infection_counter.index(val))
+            infection_counter[index[-1]] = 0
+        new_infected = [i for i in index if i >= 0]
+
 
         # Set corrupted to not take them into acount in future
         state[infected] = -1
