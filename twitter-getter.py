@@ -29,13 +29,14 @@ twitter = Twitter(
         auth = OAuth(config["access_key"], config["access_secret"],
          config["consumer_key"], config["consumer_secret"]), retry = True)
 
+config_list = ['config.py', 'config2.py']
 
 # Configure logging file for debugging Twitter error response
 logging.basicConfig(filename='catched_responses.log',level=logging.DEBUG)
 
 # Starting point
 username = "ppmadrid"
-network_sizes = [1000, 5000, 10000]
+network_sizes = [2000, 3000, 4000, 5000]
 # Recursive parameters
 visited = []
 tovisit = [username]
