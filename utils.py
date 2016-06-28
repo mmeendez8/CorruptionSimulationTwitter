@@ -172,3 +172,9 @@ def remove_root(data, root_id):
         except ValueError:
             pass
     return data
+
+def simulation (graph, mu, beta, infected, Nrep):
+    state = [0] * len(graph.vs)
+    state[infected] = 1
+    new_state = state
+    for rep in range(Nrep):
