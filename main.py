@@ -32,7 +32,7 @@ bins = [tup[0] for tup in list(deg_dist.bins())]
 vals = [tup[2] for tup in list(deg_dist.bins())]
 #
 # # Esperamos a tener mas nodos...de momento es muy pobre con todo
-plt.hist(vals, bins)
+plt.hist(vals[0:100], bins[0:100])
 plt.show()
 #
 # # Verified users from dataset
