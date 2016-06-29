@@ -176,18 +176,8 @@ def check_same_loc(graph, node1, node2, users):
     loc1 = -1
     loc2 = -2
     for location in locations:
-        #print location
-        #print type(location)
-        #print location.lower()
-        #print users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8')
-        #print type(users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8'))
         if location.lower() in users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8'):
             loc1 = locations.index(location)
-
-            # print location.lower()
-            # print users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8')
-            # print loc1
-            # raw_input('locked')
             break
 
     for location in locations:
@@ -216,11 +206,11 @@ def remove_root(data, root_id):
     """ Nada, de momento no lo hacemos ya que entonces hay
     nodos que quedan totalmente huerfanos sin ningun vecino y peta"""
     del(data[root_id])
-    for user in data.itervalues():
-        try:
-            user['neighbours'].remove(int(root_id))
-        except ValueError:
-            pass
+    # for user in data.itervalues():
+    #     try:
+    #         user['neighbours'].remove(int(root_id))
+    #     except ValueError:
+    #         pass
     return data
 
 def simulation (graph, users, beta, infected, Nrep, Nsteps):
@@ -228,9 +218,6 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps):
     for elem in infected:
         state[elem] = 1
     path = []
-    print users[graph.vs[infected[0]]["id"]]["neighbours"]
-    print graph.neighbors(infected[0])
-    raw_input('locked')
     for step in range(Nsteps):
         new_infected = []
         infection_counter = [0] * len(graph.vs)
