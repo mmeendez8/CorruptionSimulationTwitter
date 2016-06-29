@@ -45,6 +45,23 @@ def strip_accents(s):
             s = s.replace(c, subs_accents[c])
     return s.encode('utf-8')
 
+def get_indicted(filename, users, prints=True):
+    busted = []
+    with open(filename, 'r') as txtfile:
+        indicted = txtfile.readlines()
+
+    for individual in indicted:
+        for user in users.items():
+            if individual.strip() in strip_accents(user[1]['real_name'].lower().strip()):
+                busted.append(user)
+
+    if prints:
+        for indic in busted:
+            print 'id: '+indic[0]+' '+indic[1]['real_name']+', '+indic[1]['bio']
+
+    return busted
+
+    pass
 
 def _plot(g, membership,filename):
     if membership is not None:
