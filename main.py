@@ -5,7 +5,7 @@ from subprocess import call
 
 
 # Load information from JSON file
-with open('query_output1000.json', 'r') as jsonfile:
+with open('second_round/query_output3150.json', 'r') as jsonfile:
     users = json.load(jsonfile)
 
 
@@ -26,14 +26,14 @@ Nrep = 500
 Nsteps = 3
 # path = simulation(graph, users, beta, infected, Nrep, Nsteps)
 # Obtain degree distribution
-# deg_dist = degree_dist(graph)
+deg_dist = degree_dist(graph)
 #
-# bins = [tup[0] for tup in list(deg_dist.bins())]
-# vals = [tup[2] for tup in list(deg_dist.bins())]
+bins = [tup[0] for tup in list(deg_dist.bins())]
+vals = [tup[2] for tup in list(deg_dist.bins())]
 #
 # # Esperamos a tener mas nodos...de momento es muy pobre con todo
-# plt.hist(vals[0:50], bins[0:50])
-# plt.show()
+plt.hist(vals, bins)
+plt.show()
 #
 # # Verified users from dataset
 # verified = get_verified(users)
