@@ -14,21 +14,17 @@ filename = "query_output1000.json"
 print "Creating graph . . ."
 graph = create_graph(users,1)
 
-id_mamon = []
-for elem in users.iteritems():
-    if 'boza' in strip_accents(elem[1]['real_name'].encode('utf-8').lower()):
-        id_mamon.append(elem[0])
+print 'Obtaining indicted politicians...'
+busted = get_indicted('indicted_madrid.txt', users)
 
-print id_mamon
-print users[id_mamon[0]]['real_name']
-# https://twitter.com/josecarlosboza
-print users[id_mamon[0]]['neighbours']
+# From busted we see how juse carlos boza is 270469565
+print 'Performing simulation...'
 
 beta = 0.001
-infected = [users[id_mamon[0]]['node']-1]
+infected = [users['270469565']['node']-1]
 Nrep = 500
 Nsteps = 3
-path = simulation(graph, users, beta, infected, Nrep, Nsteps)
+# path = simulation(graph, users, beta, infected, Nrep, Nsteps)
 # Obtain degree distribution
 # deg_dist = degree_dist(graph)
 #
