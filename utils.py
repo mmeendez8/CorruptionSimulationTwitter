@@ -4,7 +4,10 @@ import igraph
 import numpy as np
 import heapq
 from random import randint, random
+import sys
 
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 bagofwords = ["pp","alcalde","nngg", "partido", "popular", "populares", "derecha", "nuevas generaciones","concejal","parlamento"]
 
@@ -153,14 +156,26 @@ def get_cluster_nodes(graph, partition, filename,number):
 
 def check_same_loc(graph, node1, node2, users):
     locations = load_locations('municipios_madrid.txt')
+    loc1 = -1
+    loc2 = -2
     for location in locations:
-        if location in users[graph.vs[node1]["id"]]["location"]:
-            loc1 = locations.index[location]
+        #print location
+        #print type(location)
+        #print location.lower()
+        #print users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8')
+        #print type(users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8'))
+        if location.lower() in users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8'):
+            loc1 = locations.index(location)
+
+            # print location.lower()
+            # print users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8')
+            # print loc1
+            # raw_input('locked')
             break
 
     for location in locations:
-        if location in users[graph.vs[node2]["id"]]["location"]:
-            loc2 = locations.index[location]
+        if location.lower() in users[graph.vs[node2]["id"]]["location"].lower().encode('utf-8'):
+            loc2 = locations.index(location)
             break
 
     if loc1 == loc2:
@@ -191,53 +206,72 @@ def remove_root(data, root_id):
             pass
     return data
 
-def simulation (graph, users, beta, infected, Nrep, Nsteps ):
+def simulation (graph, users, beta, infected, Nrep, Nsteps):
     state = [0] * len(graph.vs)
-    state[infected] = 1
+    for elem in infected:
+        state[elem] = 1
     path = []
+    print users[graph.vs[infected[0]]["id"]]["neighbours"]
+    print graph.neighbors(infected[0])
+    raw_input('locked')
     for step in range(Nsteps):
         new_infected = []
         infection_counter = [0] * len(graph.vs)
         parent = []
         children = []
-        for rep in range(Nrep):
-            # Iterate over previously infected nodes
-            for infected_node in infected:
-                neighbors = graph.neighbors(infected_node)
-                susceptible = []
-                for n in neighbors:
-                    # Get only non corrupted nodes
-                    if state[n]==0:
-                        susceptible.append(n)
-                # Iterate susceptible neighbors
-                for s in susceptible:
-                    if random() < beta + check_same_loc(graph,s,infected_node,users)*10*beta:
-                        # Infected
-                        infection_counter[s]+=1
-                        parent.append(infected_node)
-                        children.append(s)
-
+        while not children:
+            for rep in range(Nrep):
+                #print 'step: '+str(step)+' repetition: '+str(rep)
+                # Iterate over previously infected nodes
+                for infected_node in infected:
+                    #print 'parent is:' + str(infected_node)
+                    neighbors = graph.neighbors(infected_node)
+                    susceptible = []
+                    for n in neighbors:
+                        # Get only non corrupted nodes
+                        if state[n]==0:
+                            susceptible.append(n)
+                    # Iterate susceptible neighbors
+                    for s in susceptible:
+                        if random() < (beta + check_same_loc(graph,s,infected_node,users)*10*beta):
+                            # Infected
+                            print 'infected:'+str(s)
+                            infection_counter[s]+=1
+                            parent.append(infected_node)
+                            children.append(s)
+                #raw_input('Locked')
+            print 'Rep:' + str(rep)
         # Most corrupted nodes
         selected = heapq.nlargest(3,infection_counter)
         index = []
         for val in selected:
             if val != 0:
+                print 'step: '+str(step)+' repetition: '+str(rep)
+
                 index.append(infection_counter.index(val))
                 infection_counter[index[-1]] = 0
                 # Get index in childs for this node
                 for child in set(children):
                     child_index = [ind for ind,val in enumerate(children) if val==child]
                 # Get all different parents
-                parent_node = set(parent[child_index])
+                tmp = []
+                for x in child_index:
+                    tmp.append(parent[x])
+                parent_node = set(tmp)
                 # Add to path [parent]
                 path.append([(parent_node,index[-1])])
+                print path
+                #raw_input('locked')
 
         new_infected = index
-
+        print 'New infected: '
+        print new_infected
         # Set corrupted to not take them into acount in future
-        state[infected] = -1
+        for elem in infected:
+            state[elem] = -1
         # Set new infected
-        state[new_infected] = 1
+        for elem in new_infected:
+            state[elem] = 1
         # Update infected
         infected = new_infected
         # Update Path
