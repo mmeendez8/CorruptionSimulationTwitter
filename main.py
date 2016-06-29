@@ -28,7 +28,7 @@ beta = 0.001
 infected = [users[id_mamon[0]]['node']-1]
 Nrep = 500
 Nsteps = 3
-simulation(graph, users, beta, infected, Nrep, Nsteps)
+path = simulation(graph, users, beta, infected, Nrep, Nsteps)
 # Obtain degree distribution
 # deg_dist = degree_dist(graph)
 #

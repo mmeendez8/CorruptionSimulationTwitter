@@ -160,12 +160,21 @@ def check_same_loc(graph, node1, node2, users):
     loc2 = -2
     for location in locations:
         #print location
-        if location in users[graph.vs[node1]["id"]]["location"]:
+        #print type(location)
+        #print location.lower()
+        #print users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8')
+        #print type(users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8'))
+        if location.lower() in users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8'):
             loc1 = locations.index(location)
+
+            # print location.lower()
+            # print users[graph.vs[node1]["id"]]["location"].lower().encode('utf-8')
+            # print loc1
+            # raw_input('locked')
             break
 
     for location in locations:
-        if location in users[graph.vs[node2]["id"]]["location"]:
+        if location.lower() in users[graph.vs[node2]["id"]]["location"].lower().encode('utf-8'):
             loc2 = locations.index(location)
             break
 
@@ -202,6 +211,9 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps):
     for elem in infected:
         state[elem] = 1
     path = []
+    print users[graph.vs[infected[0]]["id"]]["neighbours"]
+    print graph.neighbors(infected[0])
+    raw_input('locked')
     for step in range(Nsteps):
         new_infected = []
         infection_counter = [0] * len(graph.vs)
@@ -209,10 +221,10 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps):
         children = []
         while not children:
             for rep in range(Nrep):
-                print 'step: '+str(step)+' repetition: '+str(rep)
+                #print 'step: '+str(step)+' repetition: '+str(rep)
                 # Iterate over previously infected nodes
                 for infected_node in infected:
-                    print 'parent is:' + str(infected_node)
+                    #print 'parent is:' + str(infected_node)
                     neighbors = graph.neighbors(infected_node)
                     susceptible = []
                     for n in neighbors:
@@ -221,7 +233,7 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps):
                             susceptible.append(n)
                     # Iterate susceptible neighbors
                     for s in susceptible:
-                        if random() < beta + check_same_loc(graph,s,infected_node,users)*10*beta:
+                        if random() < (beta + check_same_loc(graph,s,infected_node,users)*10*beta):
                             # Infected
                             print 'infected:'+str(s)
                             infection_counter[s]+=1
@@ -234,6 +246,8 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps):
         index = []
         for val in selected:
             if val != 0:
+                print 'step: '+str(step)+' repetition: '+str(rep)
+
                 index.append(infection_counter.index(val))
                 infection_counter[index[-1]] = 0
                 # Get index in childs for this node
@@ -246,6 +260,8 @@ def simulation (graph, users, beta, infected, Nrep, Nsteps):
                 parent_node = set(tmp)
                 # Add to path [parent]
                 path.append([(parent_node,index[-1])])
+                print path
+                #raw_input('locked')
 
         new_infected = index
         print 'New infected: '
